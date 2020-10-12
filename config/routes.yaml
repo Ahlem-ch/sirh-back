@@ -1,0 +1,176 @@
+#index:
+#    path: /
+#    controller: App\Controller\DefaultController::index
+
+
+
+api_login_check:
+    path: /api/login_check
+
+
+gesdinet_jwt_refresh_token:
+    path: /api/token/refresh
+    controller: gesdinet.jwtrefreshtoken::refresh
+
+
+users:
+    type: rest
+    resource: App\Controller\RegistrationController
+    prefix: api
+
+
+
+experiences:
+    type: rest
+    resource: App\Controller\ExperienceController
+    prefix: api
+
+
+postes:
+    type: rest
+    resource: App\Controller\PosteController
+    prefix: api
+
+
+departements:
+    type: rest
+    resource: App\Controller\DepartementController
+    prefix: api
+
+
+typesExp:
+    type: rest
+    resource: App\Controller\TypeExpController
+    prefix: api
+
+
+diplomes:
+    type: rest
+    resource: App\Controller\DiplomeController
+    prefix: api
+
+
+documents:
+    type: rest
+    resource: App\Controller\DocumentController
+    prefix: api
+
+
+contrats:
+    type: rest
+    resource: App\Controller\ContratController
+    prefix: api
+
+
+salaires:
+    type: rest
+    resource: App\Controller\SalaireController
+    prefix: api
+
+categories:
+    type: rest
+    resource: App\Controller\CategorieController
+    prefix: api
+
+
+sous_categories:
+    type: rest
+    resource: App\Controller\SousCategorieController
+    prefix: api
+
+
+depenses:
+  type: rest
+  resource: App\Controller\DepenseController
+  prefix: api
+
+
+free_days:
+  type: rest
+  resource: App\Controller\FreeDaysController
+  prefix: api
+
+conge:
+    type: rest
+    resource: App\Controller\CongeController
+    prefix: api
+
+pointage:
+    type: rest
+    resource: App\Controller\PointageController
+    prefix: api
+
+typesConge:
+  type: rest
+  resource: App\Controller\TypeCongeController
+  prefix: api
+
+typesDocument:
+  type: rest
+  resource: App\Controller\TypeDocumentController
+  prefix: api
+
+demandeDocument:
+  type: rest
+  resource: App\Controller\DemandeDocumentController
+  prefix: api
+
+mission:
+  type: rest
+  resource: App\Controller\MissionController
+  prefix: api
+
+note:
+  type: rest
+  resource: App\Controller\NoteFraisController
+  prefix: api
+
+autorisationSortie:
+  type: rest
+  resource: App\Controller\AutorisationSortieController
+  prefix: api
+
+configAutorisationSortie:
+  type: rest
+  resource: App\Controller\ConfigAutorisationController
+  prefix: api
+
+configSoldeConge:
+  type: rest
+  resource: App\Controller\ConfigSoldeCongeController
+  prefix: api
+
+formation:
+  type: rest
+  resource: App\Controller\FormationController
+  prefix: api
+
+referenceEmp:
+  type: rest
+  resource: App\Controller\ReferenceEmployeController
+  prefix: api
+
+notification:
+  type: rest
+  resource: App\Controller\NotificationController
+  prefix: api
+
+satatistique:
+  type: rest
+  resource: App\Controller\StatistiqueController
+  prefix: api
+
+technologie:
+  type: rest
+  resource: App\Controller\TechnologieController
+  prefix: api
+
+jira:
+  type: rest
+  resource: App\Controller\JiraController
+  prefix: api
+
+projet:
+  type: rest
+  resource: App\Controller\ProjetController
+  prefix: api
