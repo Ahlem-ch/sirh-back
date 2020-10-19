@@ -184,7 +184,6 @@ class RegistrationController extends AbstractFOSRestController
         $adresse = $request->get('adresse');
         $num_telephone = $request->get('num_telephone');
         $cin_passport = $request->get('cin_passport');
-        $sexe = $request->get('sexe');
         $etat_civil = $request->get('etat_civil');
         $sexe = $request->get('sexe');
         $date_naissance = $request->get('date_naissance', null);
@@ -280,6 +279,7 @@ class RegistrationController extends AbstractFOSRestController
         $user->setCinPassport($cin_passport);
         $user->setEtatCivil($etat_civil);
         $user->setSexe($sexe);
+        $user->setStatut('actuel');
         $user->setCopieIdentite("");
 
         if ($nbr_enfants != "null") {
@@ -382,7 +382,7 @@ class RegistrationController extends AbstractFOSRestController
                       Ton mot de passe est : <b>' . $new_password . '</b><br> 
                       Pour le changer il suffit de se connecter, d\'aller à ton espace personnel et de choisir un nouveau';
             $message = (new Swift_Message('Bienvenue à notre platforme'))
-                ->setFrom(['mahdi.znaidi@esprit.tn' => 'Agence Inspire'])
+                ->setFrom(['mahdi.znaidi@agence-inspire.com' => 'Agence Inspire'])
                 ->setTo([$email])
                 ->setBody($body)
                 ->setContentType('text/html')
@@ -437,14 +437,44 @@ class RegistrationController extends AbstractFOSRestController
 
 
     /**
-     * @Route("/api/users/{equipe}", name="usersEquipe")
-     * @param $equipe
+     * @Route("/api/archiver/{id}", name="archiverUser")
+     * @param Request $request
+     * @param int $id
      * @return View
      */
-    public function getUsersEquipeeAction(string $equipe)
+    public function archiverCollaborateur(Request $request, int $id)
     {
 
-        $data = $this->userRepository->findBy(['localisation'=> $equipe]);
+        $user = $this->userRepository->findOneBy(['id' => $id]);
+        if ($user) {
+            $statut = $request->get('statut', $user->getStatut());
+
+
+            $user->setStatut($statut);
+
+            $user->cretaedAt();
+            $user->updatedAt();
+
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+
+
+            return $this->view($user, Response::HTTP_OK)->setContext((new Context())->setGroups(['public']));
+
+        }
+        return $this->view($user, Response::HTTP_NO_CONTENT)->setContext((new Context())->setGroups(['public']));
+    }
+
+    /**
+     * @Route("/api/users/{equipe}/{statut}", name="usersEquipe")
+     * @param string $equipe
+     * @param string $statut
+     * @return View
+     */
+    public function getUsersEquipeeAction(string $equipe, string $statut)
+    {
+
+        $data = $this->userRepository->findBy(['localisation'=> $equipe, 'statut'=> $statut]);
         return $this->view($data, Response::HTTP_OK)->setContext((new Context())->setGroups(['public']));
     }
 
@@ -619,8 +649,10 @@ class RegistrationController extends AbstractFOSRestController
         $experience->setIntitule($intitule);
         $date_deb = new \DateTime($date_debut);
         $experience->setDateDebut($date_deb);
-        $date_f = new \DateTime($date_fin);
-        $experience->setDateFin($date_f);
+        if($date_fin != "null") {
+            $date_f = new \DateTime($date_fin);
+            $experience->setDateFin($date_f);
+        }
 
         $this->entityManager->persist($experience);
         $this->entityManager->flush();
@@ -717,7 +749,7 @@ class RegistrationController extends AbstractFOSRestController
 
         if ($user && $technologie) {
 
-           $user->removeTechnology($technologie);
+            $user->removeTechnology($technologie);
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
@@ -779,6 +811,7 @@ class RegistrationController extends AbstractFOSRestController
             $etat_civil = $request->get('etat_civil', $user->getEtatCivil());
             $sexe = $request->get('sexe', $user->getSexe());
             $nbr_enfants = $request->get('nbr_enfants', $user->getNbrEnfants());
+            $solde = $request->get('solde', $user->getSolde());
             $emplacement = $request->get('localisation', $user->getLocalisation());
             $date_naissance = $request->get('date_naissance');
             $poste_id = $request->get('poste_id', null);
@@ -822,6 +855,7 @@ class RegistrationController extends AbstractFOSRestController
             $user->setSexe($sexe);
             $user->setEtatCivil($etat_civil);
             $user->setNbrEnfants($nbr_enfants);
+            $user->setSolde($solde);
             $user->setLocalisation($emplacement);
             $user->setCopieIdentite("");
 
@@ -985,7 +1019,7 @@ class RegistrationController extends AbstractFOSRestController
             $body = 'Votre nouveau mot de passe est : <b>' . $new_password . '</b><br> 
                  Pour le changer il suffit de se connecter, d\'aller à ton espace personnel et de choisir un nouveau';
             $message = (new Swift_Message('Réinsialisation du mot de passe'))
-                ->setFrom(['mahdi.znaidi@esprit.tn' => 'Agence Inspire'])
+                ->setFrom(['mahdi.znaidi@agence-inspire.com' => 'Agence Inspire'])
                 ->setTo([$email])
                 ->setBody($body)
                 ->setContentType('text/html')
@@ -998,6 +1032,39 @@ class RegistrationController extends AbstractFOSRestController
         } else {
             return $this->view(null, Response::HTTP_NOT_FOUND);
         }
+    }
+
+    /**
+     * @Route("/api/change/{role}/user/{id}", name="changeRole")
+     * @param string $role
+     * @param int $id
+     * @return View
+     */
+    public function changeRole(string $role, int $id)
+    {
+
+        $user = $this->userRepository->findOneBy(['id'=> $id]);
+        if($user) {
+            $user->setRoles([$role]);
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
+        }
+        $data = $this->userRepository->findAll();
+        return $this->view($data, Response::HTTP_OK)->setContext((new Context())->setGroups(['public']));
+
+    }
+
+    /**
+     * @Route("/api/{role}/users", name="usersByRole")
+     * @param string $role
+     * @return View
+     */
+    public function getCollaborateurByRole(string $role)
+    {
+
+        $data = $this->userRepository->userByRole($role);
+        return $this->view($data, Response::HTTP_OK)->setContext((new Context())->setGroups(['public']));
+
     }
 
 

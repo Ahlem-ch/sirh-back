@@ -7,10 +7,13 @@ use App\Repository\CategorieRepository;
 use App\Repository\ContratRepository;
 use App\Repository\UserRepository;
 use App\Services\FileUploader;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -79,7 +82,7 @@ class ContratController extends AbstractFOSRestController
      */
     public function getContratsAction(){
 
-     //   $d =$this->getUser()->getId();
+        //   $d =$this->getUser()->getId();
 
         $data = $this->contratRepository->findAll();
         return $this->view($data,Response::HTTP_OK)->setContext((new Context())->setGroups(['contrat']));
@@ -154,12 +157,12 @@ class ContratController extends AbstractFOSRestController
         $data = $this->contratRepository->findOneBy(['id'=>$id]);
 
         if($data){
-        $this->entityManager->remove($data);
-        $this->entityManager->flush();
+            $this->entityManager->remove($data);
+            $this->entityManager->flush();
 
-        $contrats = $this->contratRepository->findAll();
+            $contrats = $this->contratRepository->findAll();
 
-        return $this->view($contrats,Response::HTTP_OK)->setContext((new Context())->setGroups(['contrat']));
+            return $this->view($contrats,Response::HTTP_OK)->setContext((new Context())->setGroups(['contrat']));
         }
         return $this->view(null,Response::HTTP_NO_CONTENT);
 
@@ -192,8 +195,8 @@ class ContratController extends AbstractFOSRestController
      * )
      *
      */
-     /**
-      *@Rest\Route("/api/contrat", name="addContrat")
+    /**
+     *@Rest\Route("/api/contrat", name="addContrat")
      * @param Request $request
      * @param FileUploader $fileUploader
      * @return \FOS\RestBundle\View\View
@@ -303,7 +306,7 @@ class ContratController extends AbstractFOSRestController
             $date_deb = new \DateTime($dateDebut);
             $contrat->setDateDebut($date_deb);
             if($type == 'CDI'){
-              $contrat->setDateFin(null);
+                $contrat->setDateFin(null);
             }else {
                 $date_fin = new \DateTime($dateFin);
                 $contrat->setDateFin($date_fin);
@@ -328,5 +331,35 @@ class ContratController extends AbstractFOSRestController
 
         }
         return $this->view(null, Response::HTTP_NO_CONTENT)->setContext((new Context())->setGroups(['contrat']));
+    }
+
+
+    /**
+     * @Rest\Route("/api/contrats/situation", name="contratSituation")
+     * @param Swift_Mailer $mailer
+     * @return \FOS\RestBundle\View\View
+     */
+    public function getContratsSituationAction(Swift_Mailer $mailer) {
+        $data = $this->contratRepository->findAll();
+        $now = new DateTime();
+
+        foreach ($data as $d) {
+            if($d->getDateFin()) {
+               $nbr_month = $now->diff($d->getDateFin())->format('%m');
+               if ($nbr_month == "1" || $nbr_month == "3"){
+                   $body = 'Le contrat '. '<b>('.$d->getRef().')</b>'.' du collaborateur '. $d->getUser()->getNom().' '.$d->getUser()->getPrenom().
+                       ' va expirer le : '. '<b>'.$d->getFinFormat().'</b>';
+                   $message = (new Swift_Message('Un contrat va bientôt expirer'))
+                       ->setFrom(['mahdi.znaidi@agence-inspire.com' => 'Agence Inspire'])
+                       ->setTo(['najla.romdhane@agence-inspire.com', 'esma.bensaid@agence-inspire.com'])
+                       ->setBody($body, 'html')
+                       ->setContentType('text/html');
+                   $mailer->send($message);
+               }
+            }
+        }
+
+        return $this->view(null, Response::HTTP_OK);
+
     }
 }

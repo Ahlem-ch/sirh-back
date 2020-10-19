@@ -16,15 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @package User
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @author  Znaidi Mahdi <mahdi.znaidi@esprit.tn>
- *
- * @OA\Schema(
- *     description="User model",
- *     title="User",
- *     @OA\Xml(
- *         name="User"
- *     )
- * )
  * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
@@ -36,28 +27,16 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @OA\Property(
-     *     format="integer",
-     *     description="User id",
-     *     title="id",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var integer
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
-     * )
-     * @OA\Property(
-     *     format="string",
-     *     description="User email",
-     *     title="email",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var string
      */
 
@@ -77,48 +56,24 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @OA\Property(
-     *     format="string",
-     *     description="User matricule_hr",
-     *     title="matricule_hr",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var string
      */
     private $matricule_hr;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(
-     *      min = 3,
-     *      max = 30,
-     *      minMessage = "Your first name must be at least {{ limit }} characters long",
-     *      maxMessage = "Your first name cannot be longer than {{ limit }} characters"
-     * )
-     * @OA\Property(
-     *     format="string",
-     *     description="User nom",
-     *     title="nom",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var string
      */
     private $nom;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(
-     *      min = 3,
-     *      max = 30,
-     *      minMessage = "Your second name must be at least {{ limit }} characters long",
-     *      maxMessage = "Your second name cannot be longer than {{ limit }} characters"
-     * )
-     * @OA\Property(
-     *     format="string",
-     *     description="User prenom",
-     *     title="prenom",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var string
      */
     private $prenom;
@@ -126,55 +81,32 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Length(
-     *      min = 3,
-     *      max = 30,
-     *      minMessage = "Your adress must be at least {{ limit }} characters long",
-     *      maxMessage = "Your adress cannot be longer than {{ limit }} characters"
-     * )
-     * @OA\Property(
-     *     format="string",
-     *     description="User adresse",
-     *     title="adresse",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var string
      */
     private $adresse;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @OA\Property(
-     *     format="string",
-     *     description="User numéro_telephone",
-     *     title="numéro_téléphone",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var string
      */
     private $num_telephone;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @OA\Property(
-     *     format="string",
-     *     description="User cin_passport",
-     *     title="cin_passport",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var string
      */
     private $cin_passport;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Choice({"celibataire", "marie"},message="The value you selected is not a valid choice of {{ choices }}.")
-     * @OA\Property(
-     *     format="string",
-     *     description="User etat_civil",
-     *     title="etat_civil",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var string
      */
     private $etat_civil;
@@ -182,14 +114,8 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Type("string")
-     * @Assert\NotBlank
-     * @OA\Property(
-     *     format="string",
-     *     description="User image",
-     *     title="image",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var string
      */
     private $image;
@@ -201,18 +127,15 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      */
     private $date_naissance;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @OA\Property(
-     *     format="integer",
-     *     description="User nombre d'enfants",
-     *     title="nombre d'enfants",
-     * )
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @var integer
      */
     private $nbr_enfants;
@@ -261,8 +184,8 @@ class User implements UserInterface
     private $contrats;
 
     /**
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
-     *
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      */
     public $naissance;
 
@@ -280,13 +203,15 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="float", nullable=true)
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      */
     private $solde;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      */
     private $localisation;
 
@@ -327,27 +252,43 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer", nullable=true)
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      */
     private $matricule_pointage;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Technologie", mappedBy="user")
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document"})
+     * @Groups({"public"})
      */
     private $technologies;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      */
     private $sexe;
 
     /**
-     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage","notification","mission","note","autorisation","demande_document","technologie"})
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
      * @ORM\Column(type="string", nullable=true)
      */
     private $jira_id;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     */
+    private $statut;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Deplacement", mappedBy="user", orphanRemoval=true)
+     * @Groups({"public"})
+     */
+    private $deplacements;
 
     /**
      *
@@ -371,6 +312,7 @@ class User implements UserInterface
         $this->noteFrais = new ArrayCollection();
         $this->autorisationSorties = new ArrayCollection();
         $this->technologies = new ArrayCollection();
+        $this->deplacements = new ArrayCollection();
     }
 
 
@@ -1086,6 +1028,49 @@ class User implements UserInterface
     public function setJiraId(?string $jira_id): self
     {
         $this->jira_id = $jira_id;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): self
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Deplacement[]
+     */
+    public function getDeplacements(): Collection
+    {
+        return $this->deplacements;
+    }
+
+    public function addDeplacement(Deplacement $deplacement): self
+    {
+        if (!$this->deplacements->contains($deplacement)) {
+            $this->deplacements[] = $deplacement;
+            $deplacement->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDeplacement(Deplacement $deplacement): self
+    {
+        if ($this->deplacements->contains($deplacement)) {
+            $this->deplacements->removeElement($deplacement);
+            // set the owning side to null (unless already changed)
+            if ($deplacement->getUser() === $this) {
+                $deplacement->setUser(null);
+            }
+        }
 
         return $this;
     }

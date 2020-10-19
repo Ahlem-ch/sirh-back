@@ -32,7 +32,7 @@ class Contrat
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"contrat","public","salaire","categorie"})
+     * @Groups({"contrat","public","salaire","categorie","augmentation"})
      * @OA\Property(
      *     format="int",
      *     description="Contrat ID",
@@ -45,13 +45,13 @@ class Contrat
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"contrat","public","salaire","categorie"})
+     * @Groups({"contrat","public","salaire","categorie","augmentation"})
      */
     private $ref;
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"contrat","public","salaire","categorie"})
+     * @Groups({"contrat","public","salaire","categorie","augmentation"})
      * @OA\Property(
      *     format="string",
      *     description="Contrat type",
@@ -64,7 +64,7 @@ class Contrat
 
     /**
      * @ORM\Column(type="datetime")
-     * @Groups({"contrat","public","salaire","categorie"})
+     * @Groups({"contrat","public","salaire","categorie","augmentation"})
      * @OA\Property(
      *     format="string",
      *     description="Experience date_debut",
@@ -77,7 +77,7 @@ class Contrat
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
-     * @Groups({"contrat","public","salaire","categorie"})
+     * @Groups({"contrat","public","salaire","categorie","augmentation"})
      * @OA\Property(
      *     format="string",
      *     description="Experience date_fin",
@@ -101,7 +101,7 @@ class Contrat
 
     /**
      * @ORM\Column(type="float")
-     * @Groups({"contrat","public","salaire","categorie"})
+     * @Groups({"contrat","public","salaire","categorie","augmentation"})
      * @OA\Property(
      *     format="float",
      *     description="Contrat salaire actuel",
@@ -114,7 +114,7 @@ class Contrat
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
-     * @Groups({"contrat","public","salaire","categorie"})
+     * @Groups({"contrat","public","salaire","categorie","augmentation"})
      * @OA\Property(
      *     format="string",
      *     description="Contrat copie_contrat",
@@ -140,7 +140,7 @@ class Contrat
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="contrats")
      * @ORM\JoinColumn(nullable=false)
-     * @Groups({"contrat","salaire"})
+     * @Groups({"contrat","salaire","augmentation"})
      * @OA\Property(
      *     description="Contrat user",
      *     title="user",type="array", @OA\Items(ref="#/components/schemas/User")
@@ -150,11 +150,18 @@ class Contrat
      */
     private $user;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\AugmentationContrat", mappedBy="contrat", orphanRemoval=true)
+     * @Groups({"contrat","public","salaire","categorie"})
+     */
+    private $augmentationContrats;
+
 
     public function __construct()
     {
         $this->salaires = new ArrayCollection();
         $this->categories = new ArrayCollection();
+        $this->augmentationContrats = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -317,5 +324,36 @@ class Contrat
         } else {
             return $this->date_fin;
         }
+    }
+
+    /**
+     * @return Collection|AugmentationContrat[]
+     */
+    public function getAugmentationContrats(): Collection
+    {
+        return $this->augmentationContrats;
+    }
+
+    public function addAugmentationContrat(AugmentationContrat $augmentationContrat): self
+    {
+        if (!$this->augmentationContrats->contains($augmentationContrat)) {
+            $this->augmentationContrats[] = $augmentationContrat;
+            $augmentationContrat->setContrat($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAugmentationContrat(AugmentationContrat $augmentationContrat): self
+    {
+        if ($this->augmentationContrats->contains($augmentationContrat)) {
+            $this->augmentationContrats->removeElement($augmentationContrat);
+            // set the owning side to null (unless already changed)
+            if ($augmentationContrat->getContrat() === $this) {
+                $augmentationContrat->setContrat(null);
+            }
+        }
+
+        return $this;
     }
 }

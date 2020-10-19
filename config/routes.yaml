@@ -174,3 +174,13 @@ projet:
   type: rest
   resource: App\Controller\ProjetController
   prefix: api
+
+depalcement:
+  type: rest
+  resource: App\Controller\DeplacementController
+  prefix: api
+
+augmentation:
+  type: rest
+  resource: App\Controller\AugmentationContratController
+  prefix: api

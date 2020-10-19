@@ -196,7 +196,9 @@ class ExperienceController extends AbstractFOSRestController
         $experience->setType($type);
         $date_deb = new \DateTime($date_debut);
         $experience->setDateDebut($date_deb);
-        $date_f = new \DateTime($date_fin);
+        if($date_fin != "null") {
+            $date_f = new \DateTime($date_fin);
+        }
         $experience->setDateFin($date_f);
         if($user) {
             $experience->setUser($user);

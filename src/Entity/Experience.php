@@ -67,7 +67,7 @@ class Experience
     private $date_debut;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      * @Groups({"public","experience","typesExp"})
      * @OA\Property(
      *     format="string",

@@ -6,9 +6,13 @@ use App\Entity\Conge;
 use App\Repository\CongeRepository;
 use App\Repository\TypeCongeRepository;
 use App\Repository\UserRepository;
+use DateTime;
+use Swift_Message;
+use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Swift_Mailer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -78,10 +82,12 @@ class CongeController extends AbstractFOSRestController
 
     /**
      * @param Request $request
+     * @param Swift_Mailer $mailer
+     * @Route("/api/demande/conge", name="demande_conge")
      * @return \FOS\RestBundle\View\View
      * @throws \Exception
      */
-    public function postCongeAction (Request $request) {
+    public function postCongeAction (Request $request, Swift_Mailer $mailer) {
 
         $date_debut = $request->get('date_debut');
         $date_fin = $request->get('date_fin');
@@ -93,6 +99,7 @@ class CongeController extends AbstractFOSRestController
         $user_id = $request->get('user');
         $user = $this->userRepository->findOneBy(['id' => $user_id]);
         $type = $this->typeCongeRepository->findOneBy(['id' => $type_id]);
+        $email = $request->get('to');
 
 
         $conge = new Conge();
@@ -110,6 +117,21 @@ class CongeController extends AbstractFOSRestController
 
         $this->entityManager->persist($conge);
         $this->entityManager->flush();
+
+
+        //send Mail
+
+        $dateNow = new DateTime();
+        $dateToday = $dateNow->format("Y-m-d");
+
+        $body = 'Une demande de congés a été envoyée le '.$dateToday.' par '.$user->getNom().' '.$user->getPrenom().''.' est en attente';
+        $message = (new Swift_Message('Demande de congés ('.$user->getNom().''.$user->getPrenom().')'))
+            ->setFrom(['mahdi.znaidi@agence-inspire.com' => 'Agence Inspire'])
+            ->setTo([$email])
+            ->setBody($body, 'html')
+            ->setContentType('text/html');
+        $mailer->send($message);
+
         $data = $this->congeRepository->findAll();
 
         return $this->view($data,  Response::HTTP_CREATED)->setContext((new Context())->setGroups(['conge']));

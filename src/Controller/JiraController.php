@@ -79,6 +79,7 @@ class JiraController extends AbstractFOSRestController
                 $interval2 = $origin->diff($now);
                 $val1 =$interval->format('%R%a') * 24;
                 $val2 = $interval2->format('%R%a') * 24;
+
                 if($val2>$val1){
                     $progressBar = 100;
                 } else {
@@ -545,7 +546,7 @@ class JiraController extends AbstractFOSRestController
         }
         $body.='</table>';
         $message = (new Swift_Message('Tickets ('.$dateToday. ')'))
-            ->setFrom(['mahdi.znaidi@esprit.tn' => 'Agence Inspire'])
+            ->setFrom(['mahdi.znaidi@agence-inspire.com' => 'Agence Inspire'])
             ->setTo(['hamdi.arbi@agence-inspire.com'])
             ->setBody($body, 'html')
             ->setContentType('text/html');
