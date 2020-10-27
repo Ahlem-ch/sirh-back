@@ -76,26 +76,34 @@ class AugmentationContratController extends AbstractFOSRestController
     }
 
 
-    public function postAugmentationAction(Request $request)
+    public function postAugmentationAction(Request $request, int $contrat_id)
     {
 
-        $montant = $request->get('montant');
-        $date = $request->get('date');
-        $contrat_id= $request->get('contrat');
+        $montant = $request->get('montant_augmentation');
+        $date = $request->get('date_augmentation');
+        $actuelSalaire = $request->get('actuel_salaire');
         $contrat = $this->contratRepository->findOneBy(['id'=> $contrat_id]);
 
-        $augmentation = new AugmentationContrat();
+        if($montant && $date) {
 
-        $augmentation->setContrat($montant);
-        $augmentation->setDate(new \DateTime($date));
-        $augmentation->setContrat($contrat);
+            $augmentation = new AugmentationContrat();
 
-        $this->entityManager->persist($augmentation);
-        $this->entityManager->flush();
+            $augmentation->setMontant($montant);
+            $augmentation->setDate(new \DateTime($date));
+            $contrat->setActuelSalaire($actuelSalaire + $montant);
 
-        $augmentations = $this->contratRepository->findAll();
+            $this->entityManager->persist($contrat);
+            $this->entityManager->flush();
 
-        return $this->view($augmentations, Response::HTTP_CREATED)->setContext((new Context())->setGroups(['augmentation']));
+            $augmentation->setContrat($contrat);
+
+            $this->entityManager->persist($augmentation);
+            $this->entityManager->flush();
+
+        }
+        $contrats = $this->contratRepository->findAll();
+
+        return $this->view($contrats, Response::HTTP_CREATED)->setContext((new Context())->setGroups(['contrat']));
 
     }
 

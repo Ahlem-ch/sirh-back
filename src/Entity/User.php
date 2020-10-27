@@ -28,7 +28,7 @@ class User implements UserInterface
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var integer
      */
     private $id;
@@ -36,7 +36,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
      */
 
@@ -57,7 +57,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
      */
     private $matricule_hr;
@@ -65,7 +65,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
      */
     private $nom;
@@ -73,7 +73,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
      */
     private $prenom;
@@ -82,7 +82,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
      */
     private $adresse;
@@ -90,7 +90,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
      */
     private $num_telephone;
@@ -98,7 +98,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
      */
     private $cin_passport;
@@ -106,7 +106,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
      */
     private $etat_civil;
@@ -115,7 +115,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
      */
     private $image;
@@ -128,14 +128,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      */
     private $date_naissance;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var integer
      */
     private $nbr_enfants;
@@ -185,7 +185,7 @@ class User implements UserInterface
 
     /**
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      */
     public $naissance;
 
@@ -204,14 +204,14 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="float", nullable=true)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      */
     private $solde;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      */
     private $localisation;
 
@@ -253,7 +253,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="integer", nullable=true)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      */
     private $matricule_pointage;
 
@@ -266,13 +266,13 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      */
     private $sexe;
 
     /**
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @ORM\Column(type="string", nullable=true)
      */
     private $jira_id;
@@ -280,7 +280,7 @@ class User implements UserInterface
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
-     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation"})
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      */
     private $statut;
 
@@ -289,6 +289,12 @@ class User implements UserInterface
      * @Groups({"public"})
      */
     private $deplacements;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Teletravail", mappedBy="collaborateur", orphanRemoval=true)
+     * @Groups({"public"})
+     */
+    private $teletravails;
 
     /**
      *
@@ -313,6 +319,7 @@ class User implements UserInterface
         $this->autorisationSorties = new ArrayCollection();
         $this->technologies = new ArrayCollection();
         $this->deplacements = new ArrayCollection();
+        $this->teletravails = new ArrayCollection();
     }
 
 
@@ -1069,6 +1076,37 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($deplacement->getUser() === $this) {
                 $deplacement->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Teletravail[]
+     */
+    public function getTeletravails(): Collection
+    {
+        return $this->teletravails;
+    }
+
+    public function addTeletravail(Teletravail $teletravail): self
+    {
+        if (!$this->teletravails->contains($teletravail)) {
+            $this->teletravails[] = $teletravail;
+            $teletravail->setCollaborateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTeletravail(Teletravail $teletravail): self
+    {
+        if ($this->teletravails->contains($teletravail)) {
+            $this->teletravails->removeElement($teletravail);
+            // set the owning side to null (unless already changed)
+            if ($teletravail->getCollaborateur() === $this) {
+                $teletravail->setCollaborateur(null);
             }
         }
 

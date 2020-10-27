@@ -20,20 +20,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1b4f359-ac36-4ba0-948c-8c40cb95672c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/CIRH.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CIRH.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sirh.sql" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/CongeController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CongeController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ContratController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ContratController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/ExperienceController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ExperienceController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/JiraController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/JiraController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RegistrationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Contrat.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Contrat.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Experience.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Experience.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/UpdateBaseWithProjectsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/UpdateBaseWithProjectsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AugmentationContratController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AugmentationContratController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AutorisationSortieController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AutorisationSortieController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/DeplacementController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/DeplacementController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -266,13 +259,13 @@
       <command value="s server:start 127.0.0.1:8000" />
       <command value="s ?" />
       <command value="s doctrine:schema:update" />
-      <command value="s debug:router" />
-      <command value="s make:entity" />
       <command value="" />
+      <command value="s make:entity" />
+      <command value="s make:controller" />
       <command value="s make:migration" />
       <command value="s doctrine:schema:update --force" />
-      <command value="s make:controller" />
       <command value="s server:run" />
+      <command value="s debug:router" />
     </option>
   </component>
   <component name="RunManager" selected="JavaScript Debug.index.html.twig (1)">
@@ -497,7 +490,10 @@
       <workItem from="1601973097821" duration="36347000" />
       <workItem from="1602493490819" duration="18822000" />
       <workItem from="1602692955419" duration="21828000" />
-      <workItem from="1603095854350" duration="2301000" />
+      <workItem from="1603095854350" duration="3486000" />
+      <workItem from="1603116682793" duration="703000" />
+      <workItem from="1603283162895" duration="16561000" />
+      <workItem from="1603725918098" duration="9415000" />
     </task>
     <task id="LOCAL-00001" summary=".env update">
       <created>1580922129270</created>
@@ -554,10 +550,15 @@
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
     <state x="2131" y="202" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1602858187930" />
-    <state x="2056" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1602858010480">
-      <screen x="1366" y="0" width="1920" height="1040" />
+    <state x="-1230" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603722593842">
+      <screen x="-1920" y="-161" width="1920" height="1040" />
     </state>
+    <state x="-1230" y="114" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728/-1920.-161.1920.1040@-1920.-161.1920.1040" timestamp="1603722593842" />
     <state x="2056" y="275" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1602858010480" />
+    <state x="-1180" y="285" key="#com.jetbrains.php.lang.intentions.PhpImportClassDialog#" timestamp="1603709124393">
+      <screen x="-1920" y="-161" width="1920" height="1040" />
+    </state>
+    <state x="-1180" y="285" key="#com.jetbrains.php.lang.intentions.PhpImportClassDialog#/0.0.1366.728/-1920.-161.1920.1040@-1920.-161.1920.1040" timestamp="1603709124393" />
     <state x="407" y="241" key="ComposerCompositePathDialog" timestamp="1600940203740">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -570,27 +571,31 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="448" y="233" key="FrameworkEditDialogDimensionKey/0.0.1366.728/1366.0.1600.860@0.0.1366.728" timestamp="1600940360172" />
-    <state width="1877" height="187" key="GridCell.Tab.0.bottom" timestamp="1602857742782">
-      <screen x="1366" y="0" width="1920" height="1040" />
+    <state width="1877" height="158" key="GridCell.Tab.0.bottom" timestamp="1603792626947">
+      <screen x="-1920" y="-161" width="1920" height="1040" />
     </state>
+    <state width="1877" height="158" key="GridCell.Tab.0.bottom/0.0.1366.728/-1920.-161.1920.1040@-1920.-161.1920.1040" timestamp="1603792626947" />
     <state width="1323" height="179" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1600.860@0.0.1366.728" timestamp="1600942957328" />
     <state width="1323" height="120" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1601977791280" />
     <state width="1877" height="187" key="GridCell.Tab.0.bottom/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1602857742782" />
-    <state width="1877" height="187" key="GridCell.Tab.0.center" timestamp="1602857742782">
-      <screen x="1366" y="0" width="1920" height="1040" />
+    <state width="1877" height="158" key="GridCell.Tab.0.center" timestamp="1603792626946">
+      <screen x="-1920" y="-161" width="1920" height="1040" />
     </state>
+    <state width="1877" height="158" key="GridCell.Tab.0.center/0.0.1366.728/-1920.-161.1920.1040@-1920.-161.1920.1040" timestamp="1603792626946" />
     <state width="1323" height="179" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1600.860@0.0.1366.728" timestamp="1600942957328" />
     <state width="1323" height="120" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1601977791279" />
     <state width="1877" height="187" key="GridCell.Tab.0.center/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1602857742782" />
-    <state width="1877" height="187" key="GridCell.Tab.0.left" timestamp="1602857742781">
-      <screen x="1366" y="0" width="1920" height="1040" />
+    <state width="1877" height="158" key="GridCell.Tab.0.left" timestamp="1603792626946">
+      <screen x="-1920" y="-161" width="1920" height="1040" />
     </state>
+    <state width="1877" height="158" key="GridCell.Tab.0.left/0.0.1366.728/-1920.-161.1920.1040@-1920.-161.1920.1040" timestamp="1603792626946" />
     <state width="1323" height="179" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1600.860@0.0.1366.728" timestamp="1600942957327" />
     <state width="1323" height="120" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1601977791279" />
     <state width="1877" height="187" key="GridCell.Tab.0.left/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1602857742781" />
-    <state width="1877" height="187" key="GridCell.Tab.0.right" timestamp="1602857742782">
-      <screen x="1366" y="0" width="1920" height="1040" />
+    <state width="1877" height="158" key="GridCell.Tab.0.right" timestamp="1603792626947">
+      <screen x="-1920" y="-161" width="1920" height="1040" />
     </state>
+    <state width="1877" height="158" key="GridCell.Tab.0.right/0.0.1366.728/-1920.-161.1920.1040@-1920.-161.1920.1040" timestamp="1603792626947" />
     <state width="1323" height="179" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1600.860@0.0.1366.728" timestamp="1600942957328" />
     <state width="1323" height="120" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1920.1040@0.0.1366.728" timestamp="1601977791280" />
     <state width="1877" height="187" key="GridCell.Tab.0.right/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1602857742782" />
@@ -611,14 +616,16 @@
       <screen x="1366" y="0" width="1920" height="1040" />
     </state>
     <state x="2169" y="281" key="refactoring.ChangeSignatureDialog/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1601301497265" />
-    <state x="1842" y="231" width="945" height="968" key="run.anything.popup" timestamp="1603096111022">
-      <screen x="1366" y="0" width="1920" height="1040" />
+    <state x="-1444" y="70" width="945" height="968" key="run.anything.popup" timestamp="1603792626666">
+      <screen x="-1920" y="-161" width="1920" height="1040" />
     </state>
+    <state x="-1444" y="70" width="945" height="968" key="run.anything.popup/0.0.1366.728/-1920.-161.1920.1040@-1920.-161.1920.1040" timestamp="1603792626666" />
     <state x="339" y="162" width="672" height="677" key="run.anything.popup/0.0.1366.728/1366.0.1600.860@0.0.1366.728" timestamp="1600943004266" />
     <state x="1842" y="231" width="945" height="968" key="run.anything.popup/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1603096111022" />
-    <state x="1852" y="70" width="945" height="969" key="search.everywhere.popup" timestamp="1602666744038">
-      <screen x="1366" y="0" width="1920" height="1040" />
+    <state x="-1434" y="-91" width="945" height="969" key="search.everywhere.popup" timestamp="1603726053245">
+      <screen x="-1920" y="-161" width="1920" height="1040" />
     </state>
+    <state x="-1434" y="-91" width="945" height="969" key="search.everywhere.popup/0.0.1366.728/-1920.-161.1920.1040@-1920.-161.1920.1040" timestamp="1603726053245" />
     <state x="346" y="49" width="672" height="678" key="search.everywhere.popup/0.0.1366.728/1366.0.1600.860@0.0.1366.728" timestamp="1600940381703" />
     <state x="1852" y="70" width="945" height="969" key="search.everywhere.popup/0.0.1366.728/1366.0.1920.1040@1366.0.1920.1040" timestamp="1602666744038" />
   </component>

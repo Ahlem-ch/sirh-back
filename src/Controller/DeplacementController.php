@@ -71,12 +71,13 @@ class DeplacementController extends  AbstractFOSRestController
 
     }
 
-    public function postDeplacementAction (Request $request, int $id) {
+    public function postDeplacementAction (Request $request) {
 
         $duree = $request->get('duree');
         $date = $request->get('date');
         $description = $request->get('description');
-        $user = $this->userRepository->findOneBy(['id'=> $id]);
+        $user_id = $request->get('user');
+        $user = $this->userRepository->findOneBy(['id'=> $user_id]);
 
         $deplacement = new Deplacement();
 

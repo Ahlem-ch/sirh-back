@@ -97,12 +97,30 @@ class AutorisationSortieController extends AbstractFOSRestController
 
             $statut = $request->get('statut', $autorisation->getStatut());
             $refus = $request->get('cause_refus', null);
+            $user = $autorisation->getUser();
 
+            if($statut == 'Validée'){
+
+                if($user->getSoldeAutorisationSortie() == 1){
+
+                    $user->setSolde($user->getSolde()-0.5);
+                    $this->entityManager->persist($user);
+                    $this->entityManager->flush();
+
+                }
+
+                $user->setSoldeAutorisationSortie($user->getSoldeAutorisationSortie()-1);
+
+            } else if ($statut == 'Refusé') {
+
+                if($refus) {
+
+                    $autorisation->setCauseRefus($refus);
+
+                }
+            }
 
             $autorisation->setStatut($statut);
-            if($refus) {
-                $autorisation->setCauseRefus($refus);
-            }
 
             $this->entityManager->persist($autorisation);
             $this->entityManager->flush();

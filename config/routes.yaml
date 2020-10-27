@@ -184,3 +184,8 @@ augmentation:
   type: rest
   resource: App\Controller\AugmentationContratController
   prefix: api
+
+teletravail:
+  type: rest
+  resource: App\Controller\TeletravailController
+  prefix: api
