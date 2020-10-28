@@ -47,7 +47,8 @@ class TeletravailController extends AbstractFOSRestController
     public function getTeletravailsAction(){
 
         $data = $this->teletravailRepository->findAll();
-        return $this->view($data,Response::HTTP_OK)->setContext((new Context())->setGroups(['teletravail']));
+        $data2 = array_reverse($data);
+        return $this->view($data2,Response::HTTP_OK)->setContext((new Context())->setGroups(['teletravail']));
 
     }
 
@@ -66,9 +67,8 @@ class TeletravailController extends AbstractFOSRestController
             $this->entityManager->remove($data);
             $this->entityManager->flush();
 
-            $teletravails = $this->teletravailRepository->findAll();
 
-            return $this->view(   $teletravails, Response::HTTP_OK)->setContext((new Context())->setGroups(['teletravail']));
+            return $this->getTeletravailsAction();
         }
         return $this->view(null, Response::HTTP_NO_CONTENT);
 
@@ -90,6 +90,7 @@ class TeletravailController extends AbstractFOSRestController
         $user_id = $request->get('user');
         $user = $this->userRepository->findOneBy(['id' => $user_id]);
         $email = $request->get('to');
+        $from = $request->get('from');
 
 
         $teletravail = new Teletravail();
@@ -100,7 +101,11 @@ class TeletravailController extends AbstractFOSRestController
         $teletravail->setDateFin($date_f);
         $teletravail->setDuree($duree);
         $teletravail->setDates($dates);
-        $teletravail->setStatut("En attente");
+        if($from == 'admin') {
+            $teletravail->setStatut("Validé");
+        } else if ($from == 'user') {
+            $teletravail->setStatut("En attente");
+        }
         $teletravail->setCollaborateur($user);
 
         $this->entityManager->persist($teletravail);
@@ -120,9 +125,8 @@ class TeletravailController extends AbstractFOSRestController
             ->setContentType('text/html');
         $mailer->send($message);
 
-        $data = $this->teletravailRepository->findAll();
 
-        return $this->view($data,  Response::HTTP_CREATED)->setContext((new Context())->setGroups(['teletravail']));
+        return $this->getTeletravailsAction();
 
     }
 
@@ -156,9 +160,7 @@ class TeletravailController extends AbstractFOSRestController
             $this->entityManager->persist($teletravail);
             $this->entityManager->flush();
 
-            $data = $this->teletravailRepository->findAll();
-
-            return $this->view($data, Response::HTTP_OK)->setContext((new Context())->setGroups(['teletravail']));
+            return $this->getTeletravailsAction();
 
         }
         return $this->view(null, Response::HTTP_NO_CONTENT);
