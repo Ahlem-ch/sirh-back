@@ -125,8 +125,8 @@ class CongeController extends AbstractFOSRestController
         $dateToday = $dateNow->format("Y-m-d");
 
         $body = 'Une demande de congés a été envoyée le '.$dateToday.' par '.$user->getNom().' '.$user->getPrenom().''.' est en attente';
-        $message = (new Swift_Message('Demande de congés ('.$user->getNom().''.$user->getPrenom().')'))
-            ->setFrom(['mahdi.znaidi@agence-inspire.com' => 'Agence Inspire'])
+        $message = (new Swift_Message('Demande de congé ('.$user->getNom().''.$user->getPrenom().')'))
+            ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
             ->setTo([$email])
             ->setBody($body, 'html')
             ->setContentType('text/html');
@@ -141,10 +141,10 @@ class CongeController extends AbstractFOSRestController
     /**
      * @param Request $request
      * @param int $id
+     * @param Swift_Mailer $mailer
      * @return \FOS\RestBundle\View\View
-     * @throws \Exception
      */
-    public function patchCongeAction(Request $request, int $id)
+    public function patchCongeAction(Request $request, int $id , Swift_Mailer $mailer)
     {
 
         $conge = $this->congeRepository->findOneBy(['id' => $id]);
@@ -158,6 +158,7 @@ class CongeController extends AbstractFOSRestController
             $statut	 = $request->get('statut', $conge->getStatut());
             $dates = $request->get('dates', $conge->getDates());
             $cause = $request->get('cause_refus', $conge->getTypeConge());
+            $email = $request->get('to');
 
             $conge->setDateDebut($date_debut);
             $conge->setDateFin($date_fin);
@@ -169,6 +170,68 @@ class CongeController extends AbstractFOSRestController
 
             $this->entityManager->persist($conge);
             $this->entityManager->flush();
+
+
+
+            $date_deb_format= $date_debut->format("Y-m-d");
+            $date_fin_format = $date_fin->format("Y-m-d");
+
+            if($statut === 'Validé'){
+
+                if($duree == 1 ) {
+
+                    $body = ' Nous avons bien reçu votre demande dans lequel vous nous indiquez que vous souhaitez prendre votre congé principal 
+              le ' . $date_deb_format. '<br>' .
+                        'Nous vous informons que nous vous donnons notre accord pour cette date.' . '<br>' .
+
+                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
+
+                        'Sevice RH';
+                } else  {
+                    $body = ' Nous avons bien reçu votre demande dans lequel vous nous indiquez que vous souhaitez prendre votre congé principal 
+              du ' . $date_deb_format . '  au ' . $date_fin_format . '<br>' .
+                        'Nous vous informons que nous vous donnons notre accord pour ces dates de congés.' . '<br>' .
+
+                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
+
+                        'Sevice RH';
+                }
+            $message = (new Swift_Message('Demande de congé payé'))
+                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                ->setTo([$email])
+                ->setBody($body, 'html')
+                ->setContentType('text/html');
+            $mailer->send($message);
+
+            } else if ($statut === 'Refusé') {
+
+                if($duree == 1 ) {
+
+                    $body = ' Nous avons bien reçu votre demande dans lequel vous nous indiquez que vous souhaitez prendre votre congé principal 
+              le ' . $date_deb_format. '<br>' .
+                        'Nous vous informons que nous somme désolé de refusé votre demande pour cette date.' . '<br>' .
+
+                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
+
+                        'Sevice RH';
+                } else  {
+                    $body = ' Nous avons bien reçu votre demande dans lequel vous nous indiquez que vous souhaitez prendre votre congé principal 
+              du ' . $date_deb_format . '  au ' . $date_fin_format . '<br>' .
+                        'Nous vous informons que nous somme désolé de refusé votre demande pour ces dates de congés.' . '<br>' .
+
+                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
+
+                        'Sevice RH';
+                }
+                $message = (new Swift_Message('Demande de congé payé'))
+                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setTo([$email])
+                    ->setBody($body, 'html')
+                    ->setContentType('text/html');
+                $mailer->send($message);
+
+            }
+
 
             $data = $this->congeRepository->findAll();
 

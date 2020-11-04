@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Departement;
 use App\Repository\DepartementRepository;
+use App\Repository\PointageRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Context\Context;
@@ -29,12 +30,25 @@ class DepartementController extends AbstractFOSRestController
      * @var DepartementRepository
      */
     private $departementRepository;
+    /**
+     * @var PointageRepository
+     */
+    private $pointageRepository;
 
-    public function __construct(DepartementRepository $departementRepository, UserRepository $userRepository, EntityManagerInterface $entityManager)
+    /**
+     * DepartementController constructor.
+     * @param DepartementRepository $departementRepository
+     * @param UserRepository $userRepository
+     * @param PointageRepository $pointageRepository
+     * @param EntityManagerInterface $entityManager
+     */
+    public function __construct(DepartementRepository $departementRepository, UserRepository $userRepository,
+                                PointageRepository $pointageRepository, EntityManagerInterface $entityManager)
     {
         $this->entityManager = $entityManager;
         $this->userRepository = $userRepository;
         $this->departementRepository = $departementRepository;
+        $this->pointageRepository = $pointageRepository;
     }
 
     /**
@@ -141,6 +155,11 @@ class DepartementController extends AbstractFOSRestController
     {
         $data = $this->departementRepository->findOneBy(['id' => $id]);
         $users = $this->userRepository->findBy(['departement' => $id]);
+        $departements = $this->pointageRepository->findBy(['dpartement' => $id]);
+
+        foreach ($departements as $value_id) {
+            $value_id->setDpartement(null);
+        }
 
         foreach ($users as $value_id) {
             $value_id->setDepartement(null);

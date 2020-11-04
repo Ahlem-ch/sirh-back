@@ -142,7 +142,6 @@ class PosteController extends AbstractFOSRestController
     {
         $data = $this->posteRepository->findOneBy(['id' => $id]);
         $users = $this->userRepository->findBy(['poste' => $id]);
-
         foreach ($users as $value_id) {
             $value_id->setPoste(null);
         }

@@ -382,7 +382,7 @@ class RegistrationController extends AbstractFOSRestController
                       Ton mot de passe est : <b>' . $new_password . '</b><br> 
                       Pour le changer il suffit de se connecter, d\'aller à ton espace personnel et de choisir un nouveau';
             $message = (new Swift_Message('Bienvenue à notre platforme'))
-                ->setFrom(['mahdi.znaidi@agence-inspire.com' => 'Agence Inspire'])
+                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
                 ->setTo([$email])
                 ->setBody($body)
                 ->setContentType('text/html')
@@ -812,6 +812,7 @@ class RegistrationController extends AbstractFOSRestController
             $sexe = $request->get('sexe', $user->getSexe());
             $nbr_enfants = $request->get('nbr_enfants', $user->getNbrEnfants());
             $solde = $request->get('solde', $user->getSolde());
+            $autorisation = $request->get('autorisation', $user->getSoldeAutorisationSortie());
             $emplacement = $request->get('localisation', $user->getLocalisation());
             $date_naissance = $request->get('date_naissance');
             $poste_id = $request->get('poste_id', null);
@@ -856,6 +857,7 @@ class RegistrationController extends AbstractFOSRestController
             $user->setEtatCivil($etat_civil);
             $user->setNbrEnfants($nbr_enfants);
             $user->setSolde($solde);
+            $user->setSoldeAutorisationSortie($autorisation);
             $user->setLocalisation($emplacement);
             $user->setCopieIdentite("");
 
@@ -1019,7 +1021,7 @@ class RegistrationController extends AbstractFOSRestController
             $body = 'Votre nouveau mot de passe est : <b>' . $new_password . '</b><br> 
                  Pour le changer il suffit de se connecter, d\'aller à ton espace personnel et de choisir un nouveau';
             $message = (new Swift_Message('Réinsialisation du mot de passe'))
-                ->setFrom(['mahdi.znaidi@agence-inspire.com' => 'Agence Inspire'])
+                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
                 ->setTo([$email])
                 ->setBody($body)
                 ->setContentType('text/html')

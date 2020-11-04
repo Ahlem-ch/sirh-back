@@ -546,7 +546,7 @@ class JiraController extends AbstractFOSRestController
         }
         $body.='</table>';
         $message = (new Swift_Message('Tickets ('.$dateToday. ')'))
-            ->setFrom(['mahdi.znaidi@agence-inspire.com' => 'Agence Inspire'])
+            ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
             ->setTo(['hamdi.arbi@agence-inspire.com'])
             ->setBody($body, 'html')
             ->setContentType('text/html');
