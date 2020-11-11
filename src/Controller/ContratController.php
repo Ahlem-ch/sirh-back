@@ -351,7 +351,7 @@ class ContratController extends AbstractFOSRestController
                        ' va expirer le : '. '<b>'.$d->getFinFormat().'</b>';
                    $message = (new Swift_Message('Un contrat va bientôt expirer'))
                        ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
-                       ->setTo(['najla.romdhane@agence-inspire.com', 'esma.bensaid@agence-inspire.com'])
+                       ->setTo(['rh@agence-inspire.com'])
                        ->setBody($body, 'html')
                        ->setContentType('text/html');
                    $mailer->send($message);

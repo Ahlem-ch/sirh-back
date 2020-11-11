@@ -277,7 +277,9 @@ class RegistrationController extends AbstractFOSRestController
         $user->setAdresse($adresse);
         $user->setNumTelephone($num_telephone);
         $user->setCinPassport($cin_passport);
-        $user->setEtatCivil($etat_civil);
+        if ($etat_civil) {
+            $user->setEtatCivil($etat_civil);
+        }
         $user->setSexe($sexe);
         $user->setStatut('actuel');
         $user->setCopieIdentite("");
@@ -351,37 +353,40 @@ class RegistrationController extends AbstractFOSRestController
             $user->addExperience($value);
         }
 
-        /**
-         * @var $err ConstraintViolationList
-         */
-        $err = $validator->validate($user);
-        $pattern = '/^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/';
-        if (count($err) > 0) {
-
-            $message = [];
-            $array = $err->getIterator()->getArrayCopy();
-            /**
-             * @var  $item ConstraintViolation
-             */
-            foreach ($array as $item) {
-                //Remplir $message avec $item->getMessage()
-                array_push($message, $item->getMessage());
-            }
-            return $this->view($message, Response::HTTP_BAD_REQUEST);
-        } elseif (preg_match($pattern, $new_password)) {
+//        /**
+//         * @var $err ConstraintViolationList
+//         */
+//        $err = $validator->validate($user);
+//        $pattern = '/^(?=.*[0-9])(?=.*[A-Z]).{8,20}$/';
+//        if (count($err) > 0) {
+//
+//            $message = [];
+//            $array = $err->getIterator()->getArrayCopy();
+//            /**
+//             * @var  $item ConstraintViolation
+//             */
+//            foreach ($array as $item) {
+//                //Remplir $message avec $item->getMessage()
+//                array_push($message, $item->getMessage());
+//            }
+//            return $this->view($message, Response::HTTP_BAD_REQUEST);
+//        } elseif (preg_match($pattern, $new_password)) {
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
 
             // contenu du mail de bienvenue
 
-            $body = ' Nous sommes très heureux de vous avoir dans notre groupe ! 
-                      Nous croyons que vous pouvez utiliser vos compétences et vos talents pour aider <br>
-                      notre entreprise à atteindre de nouveaux sommets. Bienvenue à bord ! <br>
-                      Vous pouvez accéder  maintenant à notre platforme <div style="color:#0d5aa7">sirh.prod-projet.com</div>.<br>
+            $body = ' Nous sommes très heureux de t\'avoir chez Inspire !
+                      Nous sommes convaincus que tu pourras utiliser tes compétences et tes talents pour atteindre de nouveaux sommets.<br>
+                      Alors bienvenue à bord !<br>
+                      Tu peux accéder dès à présent à ton espace personnel en cliquant sur le lien suivant :  <br>
+                      <div style="color:#0d5aa7">mysirh.prod-projet.com</div>.<br>
                       Ton mot de passe est : <b>' . $new_password . '</b><br> 
-                      Pour le changer il suffit de se connecter, d\'aller à ton espace personnel et de choisir un nouveau';
-            $message = (new Swift_Message('Bienvenue à notre platforme'))
+                      Pour le changer il suffit de te connecter une première fois, de te rendre sur espace personnel et d\'en choisir un nouveau.<br>
+                      A bientôt !';
+
+            $message = (new Swift_Message('Bienvenue sur notre plateforme !'))
                 ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
                 ->setTo([$email])
                 ->setBody($body)
@@ -396,9 +401,9 @@ class RegistrationController extends AbstractFOSRestController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
             return $this->view($user, Response::HTTP_CREATED)->setContext((new Context())->setGroups(['public']));
-        }
-        $messages = 'The password should contains minimum eight characters, at least one letter and one number';
-        return $this->view($messages, Response::HTTP_BAD_REQUEST);
+//        }
+//        $messages = 'The password should contains minimum eight characters, at least one letter and one number';
+//        return $this->view($messages, Response::HTTP_BAD_REQUEST);
     }
 
 
@@ -852,9 +857,13 @@ class RegistrationController extends AbstractFOSRestController
             }
             $user->setAdresse($adresse);
             $user->setNumTelephone($num_telephone);
-            $user->setCinPassport($cin_passport);
+            if($cin_passport) {
+                $user->setCinPassport($cin_passport);
+            }
             $user->setSexe($sexe);
-            $user->setEtatCivil($etat_civil);
+            if ($etat_civil) {
+                $user->setEtatCivil($etat_civil);
+            }
             $user->setNbrEnfants($nbr_enfants);
             $user->setSolde($solde);
             $user->setSoldeAutorisationSortie($autorisation);

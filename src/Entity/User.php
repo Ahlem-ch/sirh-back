@@ -96,7 +96,7 @@ class User implements UserInterface
     private $num_telephone;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
      *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
@@ -104,7 +104,7 @@ class User implements UserInterface
     private $cin_passport;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable= true)
      * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
      *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
      * @var string
@@ -477,7 +477,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getCinPassport(): string
+    public function getCinPassport():? string
     {
         return $this->cin_passport;
     }
@@ -493,7 +493,7 @@ class User implements UserInterface
     /**
      * @return string
      */
-    public function getEtatCivil(): string
+    public function getEtatCivil():? string
     {
         return $this->etat_civil;
     }
