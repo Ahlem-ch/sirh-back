@@ -189,3 +189,8 @@ teletravail:
   type: rest
   resource: App\Controller\TeletravailController
   prefix: api
+
+configSoldeFranceConge:
+  type: rest
+  resource: App\Controller\ConfigSoldeCongeFranceController
+  prefix: api

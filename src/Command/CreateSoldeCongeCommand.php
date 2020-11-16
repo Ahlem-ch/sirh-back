@@ -4,11 +4,8 @@
 namespace App\Command;
 
 
-use App\Entity\Poste;
 use App\Repository\ConfigAutorisationRepository;
 use App\Repository\ConfigSoldeCongeRepository;
-use App\Repository\CongeRepository;
-use App\Repository\PosteRepository;
 use App\Repository\UserRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
@@ -74,7 +71,9 @@ class CreateSoldeCongeCommand extends Command
 
         $list_id = [];
         foreach ($data as $d) {
-            array_push($list_id, $d->getId());
+            if($d->getLocalisation() === 'Tunisie') {
+                array_push($list_id, $d->getId());
+            }
         }
 
         foreach ($list_id as $id) {

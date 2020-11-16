@@ -113,7 +113,7 @@ class RegistrationController extends AbstractFOSRestController
      */
     public function __construct(UserRepository $userRepository, DiplomeRepository $diplomeRepository, NoteFraisRepository $noteFraisRepository,
                                 PosteRepository $posteRepository, UserPasswordEncoderInterface $passwordEncoder, DepartementRepository $departementRepository,
-                                ExperienceRepository $experienceRepository,ReferenceEmpRepository $referenceEmpRepository,DocumentRepository $documentRepository,
+                                ExperienceRepository $experienceRepository, ReferenceEmpRepository $referenceEmpRepository, DocumentRepository $documentRepository,
                                 ConfigSoldeCongeRepository $configSoldeCongeRepository, ConfigAutorisationRepository $configAutorisationRepository,
                                 TechnologieRepository $technologieRepository, EntityManagerInterface $entityManager)
     {
@@ -189,6 +189,7 @@ class RegistrationController extends AbstractFOSRestController
         $date_naissance = $request->get('date_naissance', null);
         $location = $request->get('emplacement');
         $nbr_enfants = $request->get('nbr_enfants', null);
+        $date_embauche = $request->get('date_embauche', null);
         $poste_id = $request->get('poste_id', null);
         $poste = $this->posteRepository->findOneBy(['id' => $poste_id]);
         $departement_id = $request->get('departement_id');
@@ -243,12 +244,11 @@ class RegistrationController extends AbstractFOSRestController
         $user->setDateNaissance(new \DateTime($date_naiss));
 
 
-
         //ajout d'une matricule HR configurable sinon un valeur par défaut est attribué
 
         $reference = $this->referenceEmpRepository->findOneBy([]);
 
-        if($reference !== null) {
+        if ($reference !== null) {
             $val = $reference->getLibelle();
             $min = $reference->getValueMin();
             $max = $reference->getValueMax();
@@ -272,14 +272,15 @@ class RegistrationController extends AbstractFOSRestController
         //////////////////////////////////////////////////////////////////////////////////
 
 
-
-
         $user->setAdresse($adresse);
         $user->setNumTelephone($num_telephone);
         $user->setCinPassport($cin_passport);
         if ($etat_civil) {
             $user->setEtatCivil($etat_civil);
         }
+        $embauche = new \DateTime($date_embauche);
+        $user->setDateEmbauche($embauche);
+
         $user->setSexe($sexe);
         $user->setStatut('actuel');
         $user->setCopieIdentite("");
@@ -304,9 +305,16 @@ class RegistrationController extends AbstractFOSRestController
 
         $conge = $this->configSoldeCongeRepository->findOneBy([]);
 
-        if($conge !== null) {
-            $val = $conge->getSolde();
-            $user->setSolde($val);
+        if ($conge !== null) {
+
+//          ajout solde directement après l'ajout à la platforme
+//          $val = $conge->getSolde();
+//          $user->setSolde($val);
+
+
+//          ajout solde 0 après l'ajout à la platforme
+//          $val = $conge->getSolde();
+            $user->setSolde(0);
 
         } else if ($conge === null) {
             $user->setSolde(0);
@@ -319,7 +327,7 @@ class RegistrationController extends AbstractFOSRestController
 
         $autorisation = $this->configAutorisationRepository->findOneBy([]);
 
-        if($autorisation !== null) {
+        if ($autorisation !== null) {
             $val = $autorisation->getNbAutorisation();
             $user->setSoldeAutorisationSortie($val);
 
@@ -328,8 +336,6 @@ class RegistrationController extends AbstractFOSRestController
         }
 
         ///////////////////////////////////////////////////////////////////////
-
-
 
 
         $user->setMatriculeHr($matricule_hr);
@@ -371,13 +377,13 @@ class RegistrationController extends AbstractFOSRestController
 //            }
 //            return $this->view($message, Response::HTTP_BAD_REQUEST);
 //        } elseif (preg_match($pattern, $new_password)) {
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
 
 
-            // contenu du mail de bienvenue
+        // contenu du mail de bienvenue
 
-            $body = ' Nous sommes très heureux de t\'avoir chez Inspire !
+        $body = ' Nous sommes très heureux de t\'avoir chez Inspire !
                       Nous sommes convaincus que tu pourras utiliser tes compétences et tes talents pour atteindre de nouveaux sommets.<br>
                       Alors bienvenue à bord !<br>
                       Tu peux accéder dès à présent à ton espace personnel en cliquant sur le lien suivant :  <br>
@@ -386,21 +392,21 @@ class RegistrationController extends AbstractFOSRestController
                       Pour le changer il suffit de te connecter une première fois, de te rendre sur espace personnel et d\'en choisir un nouveau.<br>
                       A bientôt !';
 
-            $message = (new Swift_Message('Bienvenue sur notre plateforme !'))
-                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
-                ->setTo([$email])
-                ->setBody($body)
-                ->setContentType('text/html')
-                ->attach(\Swift_Attachment::fromPath(__DIR__.'/../../public/uploads/images/agence-inspire-tunisie.jpg'));
-            $mailer->send($message);
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $new_password));
+        $message = (new Swift_Message('Bienvenue sur notre plateforme !'))
+            ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+            ->setTo([$email])
+            ->setBody($body)
+            ->setContentType('text/html')
+            ->attach(\Swift_Attachment::fromPath(__DIR__ . '/../../public/uploads/images/agence-inspire-tunisie.jpg'));
+        $mailer->send($message);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $new_password));
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
-            return $this->view($user, Response::HTTP_CREATED)->setContext((new Context())->setGroups(['public']));
+        $this->entityManager->persist($user);
+        $this->entityManager->flush();
+        return $this->view($user, Response::HTTP_CREATED)->setContext((new Context())->setGroups(['public']));
 //        }
 //        $messages = 'The password should contains minimum eight characters, at least one letter and one number';
 //        return $this->view($messages, Response::HTTP_BAD_REQUEST);
@@ -479,7 +485,7 @@ class RegistrationController extends AbstractFOSRestController
     public function getUsersEquipeeAction(string $equipe, string $statut)
     {
 
-        $data = $this->userRepository->findBy(['localisation'=> $equipe, 'statut'=> $statut]);
+        $data = $this->userRepository->findBy(['localisation' => $equipe, 'statut' => $statut]);
         return $this->view($data, Response::HTTP_OK)->setContext((new Context())->setGroups(['public']));
     }
 
@@ -491,7 +497,7 @@ class RegistrationController extends AbstractFOSRestController
      */
     public function userById(int $id)
     {
-        $data = $this->userRepository->findOneBy(['id'=> $id]);
+        $data = $this->userRepository->findOneBy(['id' => $id]);
         return $this->view($data, Response::HTTP_OK)->setContext((new Context())->setGroups(['public']));
 
     }
@@ -562,7 +568,7 @@ class RegistrationController extends AbstractFOSRestController
         $this->entityManager->remove($data);
         $this->entityManager->flush();
 
-        $data = $this->userRepository->findBy(['localisation'=> $equipe]);
+        $data = $this->userRepository->findBy(['localisation' => $equipe]);
         return $this->view($data, Response::HTTP_OK)->setContext((new Context())->setGroups(['public']));
     }
 
@@ -654,7 +660,7 @@ class RegistrationController extends AbstractFOSRestController
         $experience->setIntitule($intitule);
         $date_deb = new \DateTime($date_debut);
         $experience->setDateDebut($date_deb);
-        if($date_fin != "null") {
+        if ($date_fin != "null") {
             $date_f = new \DateTime($date_fin);
             $experience->setDateFin($date_f);
         }
@@ -718,11 +724,11 @@ class RegistrationController extends AbstractFOSRestController
      * @param int $id
      * @return View
      */
-    public function affectTechnologieAction(Request $request,int $id)
+    public function affectTechnologieAction(Request $request, int $id)
     {
 
         $user = $this->userRepository->findOneBy(['id' => $id]);
-        $id_tec  = $request->get('technologie_id');
+        $id_tec = $request->get('technologie_id');
         $technologie = $this->technologieRepository->findOneBy(['id' => $id_tec]);
 
         if ($user) {
@@ -819,6 +825,8 @@ class RegistrationController extends AbstractFOSRestController
             $solde = $request->get('solde', $user->getSolde());
             $autorisation = $request->get('autorisation', $user->getSoldeAutorisationSortie());
             $emplacement = $request->get('localisation', $user->getLocalisation());
+            $date_embauche = $request->get('date_embauche');
+
             $date_naissance = $request->get('date_naissance');
             $poste_id = $request->get('poste_id', null);
             $poste = $this->posteRepository->findOneBy(['id' => $poste_id]);
@@ -851,13 +859,18 @@ class RegistrationController extends AbstractFOSRestController
             $user->setJiraId($jira_id);
             $user->setPrenom($prenom);
             $user->setNom($nom);
-            if($date_naissance){
+            if ($date_naissance) {
                 $naissance = new \DateTime($date_naissance);
                 $user->setDateNaissance($naissance);
             }
+
+            if ($date_embauche) {
+                $embauche = new \DateTime($date_embauche);
+                $user->setDateEmbauche($embauche);
+            }
             $user->setAdresse($adresse);
             $user->setNumTelephone($num_telephone);
-            if($cin_passport) {
+            if ($cin_passport) {
                 $user->setCinPassport($cin_passport);
             }
             $user->setSexe($sexe);
@@ -966,10 +979,10 @@ class RegistrationController extends AbstractFOSRestController
         if ($user) {
             $solde = $request->get('solde', null);
             $soldeAutorisation = $request->get('soldeAutorisation', null);
-            if($solde) {
+            if ($solde) {
                 $user->setSolde($user->getSolde() - $solde);
             }
-            if($soldeAutorisation) {
+            if ($soldeAutorisation) {
                 $user->setSoldeAutorisationSortie($user->getSoldeAutorisationSortie() - 1);
             }
             $this->entityManager->persist($user);
@@ -1015,7 +1028,8 @@ class RegistrationController extends AbstractFOSRestController
      * @Route("/password/reset", name="mail")
      * @return View
      */
-    public function postSendMail(Request $request, Swift_Mailer $mailer, $length = 12) {
+    public function postSendMail(Request $request, Swift_Mailer $mailer, $length = 12)
+    {
 
 
         $email = $request->get('email', null);
@@ -1034,7 +1048,7 @@ class RegistrationController extends AbstractFOSRestController
                 ->setTo([$email])
                 ->setBody($body)
                 ->setContentType('text/html')
-                ->attach(\Swift_Attachment::fromPath(__DIR__.'/../../public/uploads/images/agence-inspire-tunisie.jpg'));
+                ->attach(\Swift_Attachment::fromPath(__DIR__ . '/../../public/uploads/images/agence-inspire-tunisie.jpg'));
             $mailer->send($message);
             $user->setPassword($this->passwordEncoder->encodePassword($user, $new_password));
             $this->entityManager->persist($user);
@@ -1054,8 +1068,8 @@ class RegistrationController extends AbstractFOSRestController
     public function changeRole(string $role, int $id)
     {
 
-        $user = $this->userRepository->findOneBy(['id'=> $id]);
-        if($user) {
+        $user = $this->userRepository->findOneBy(['id' => $id]);
+        if ($user) {
             $user->setRoles([$role]);
             $this->entityManager->persist($user);
             $this->entityManager->flush();

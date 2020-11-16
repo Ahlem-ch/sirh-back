@@ -5,7 +5,6 @@ namespace App\Command;
 
 
 use App\Controller\ContratController;
-use App\Controller\JiraController;
 use Doctrine\ORM\EntityManagerInterface;
 use Swift_Mailer;
 use Symfony\Component\Console\Command\Command;

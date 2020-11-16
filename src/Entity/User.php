@@ -297,6 +297,13 @@ class User implements UserInterface
     private $teletravails;
 
     /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"public","experience","poste","departement","diplome","document","contrat","salaire","conge","pointage",
+     *     "notification","mission","note","autorisation","demande_document","technologie","deplacement","augmentation","teletravail"})
+     */
+    private $date_embauche;
+
+    /**
      *
      * @ORM\PostLoad()
      */
@@ -1109,6 +1116,18 @@ class User implements UserInterface
                 $teletravail->setCollaborateur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDateEmbauche(): ?\DateTimeInterface
+    {
+        return $this->date_embauche;
+    }
+
+    public function setDateEmbauche(?\DateTimeInterface $date_embauche): self
+    {
+        $this->date_embauche = $date_embauche;
 
         return $this;
     }
