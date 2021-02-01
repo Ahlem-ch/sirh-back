@@ -240,8 +240,7 @@ class RegistrationController extends AbstractFOSRestController
         $user->setPrenom($prenom);
         $user->setNom($nom);
         $user->setEmail($email);
-        $date_naiss = \DateTime::createFromFormat('D M d Y H:i:s e+', $date_naissance);
-        $user->setDateNaissance(new \DateTime($date_naiss));
+        $user->setDateNaissance(new \DateTime($date_naissance));
 
 
         //ajout d'une matricule HR configurable sinon un valeur par défaut est attribué

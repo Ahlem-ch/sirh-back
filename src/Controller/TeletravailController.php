@@ -116,8 +116,11 @@ class TeletravailController extends AbstractFOSRestController
 
         $dateNow = new DateTime();
         $dateToday = $dateNow->format("Y-m-d");
-
-        $body = 'Une demande de télétravail a été envoyée le '.$dateToday.' par '.$user->getNom().' '.$user->getPrenom().''.' est en attente';
+        if($from == 'admin') {
+            $body = 'Votre demande d\'autorisation d\'exercer tes activités dans le cadre du télétravail a été validée avec succès le '.$dateToday ;
+        } else if ($from == 'user') {
+            $body = 'Une demande de télétravail a été envoyée le '.$dateToday.' par '.$user->getNom().' '.$user->getPrenom().''.' est en attente';
+        }
         $message = (new Swift_Message('Demande de télétravail ('.$user->getNom().''.$user->getPrenom().')'))
             ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
             ->setTo([$email])

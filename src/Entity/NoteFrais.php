@@ -19,7 +19,7 @@ class NoteFrais
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @Groups({"note","public"})
      */
     private $piece_jointe;
