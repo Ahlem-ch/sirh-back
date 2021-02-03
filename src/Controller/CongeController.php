@@ -186,7 +186,7 @@ class CongeController extends AbstractFOSRestController
 
                         'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
 
-                        'Sevice RH';
+                        'Sevice RH INSPIRE';
                 } else  {
                     $body = ' Nous avons bien reçu votre demande dans lequel vous nous indiquez que vous souhaitez prendre votre congé principal 
               du ' . $date_deb_format . '  au ' . $date_fin_format . '<br>' .
@@ -194,7 +194,7 @@ class CongeController extends AbstractFOSRestController
 
                         'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
 
-                        'Sevice RH';
+                        'Sevice RH INSPIRE';
                 }
             $message = (new Swift_Message('Demande de congé payé'))
                 ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
@@ -213,7 +213,7 @@ class CongeController extends AbstractFOSRestController
 
                         'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
 
-                        'Sevice RH';
+                        'Sevice RH INSPIRE';
                 } else  {
                     $body = ' Nous avons bien reçu votre demande dans lequel vous nous indiquez que vous souhaitez prendre votre congé principal 
               du ' . $date_deb_format . '  au ' . $date_fin_format . '<br>' .
@@ -221,7 +221,7 @@ class CongeController extends AbstractFOSRestController
 
                         'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
 
-                        'Sevice RH';
+                        'Sevice RH INSPIRE';
                 }
                 $message = (new Swift_Message('Demande de congé payé'))
                     ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])

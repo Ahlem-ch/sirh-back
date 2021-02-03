@@ -6,9 +6,12 @@ use App\Entity\NoteFrais;
 use App\Repository\NoteFraisRepository;
 use App\Repository\UserRepository;
 use App\Services\FileUploader;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
+use Swift_Mailer;
+use Swift_Message;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -73,10 +76,11 @@ class NoteFraisController extends AbstractFOSRestController
      * @Route("/api/note", name="addNote")
      * @param Request $request
      * @param FileUploader $fileUploader
+     * @param Swift_Mailer $mailer
      * @return \FOS\RestBundle\View\View
      * @throws \Exception
      */
-    public function noteAction(Request $request, FileUploader $fileUploader)
+    public function noteAction(Request $request, FileUploader $fileUploader, Swift_Mailer $mailer)
     {
 
         $date = $request->get('date');
@@ -86,6 +90,10 @@ class NoteFraisController extends AbstractFOSRestController
         $TVA = $request->get('TVA', null);
         $TTC = $request->get('TTC', null);
         $remboursement = $request->get('remboursement', null);
+        $statut = $request->get('statut', 'En attente');
+        $equipe = $request->get('equipe', null);
+        $from = $request->get('from');
+        $to = $request->get('to');
         $user_id = $request->get('user');
         $user = $this->userRepository->findOneBy(['id' => $user_id]);
 
@@ -107,7 +115,8 @@ class NoteFraisController extends AbstractFOSRestController
         $note->setDescription($description);
         $note->setCreatedAt(new \DateTime());
         $note->setUser($user);
-        $note->setStatut('En attente');
+        $note->setStatut($statut);
+        $note->setEquipe($equipe);
         $note->setType($type);
         if($HT){
             $note->setMontantHT($HT);
@@ -123,7 +132,48 @@ class NoteFraisController extends AbstractFOSRestController
         }
         $this->entityManager->persist($note);
         $this->entityManager->flush();
+
         $data = $this->noteFraisRepository->findAll();
+
+        if($user) {
+
+            $dateNow = new DateTime();
+            $dateToday = $dateNow->format("Y-m-d");
+
+            if ($from === 'user') {
+
+                if ($equipe === 'France'){
+                    $to = 'esma.bensaid@agence-inspire.com';
+                } else if ($equipe === 'Tunisie') {
+                    $to = 'najla.romdhane@agence-inspire.com';
+                }
+                // contenu du mail
+
+                $body = 'Je vous prie de bien vouloir procéder au remboursement  de l\'ensemble des frais engagés dans le cadre de cette mission professionnelle.<br> Envoyée le ' . $dateToday . ' par ' . $user->getNom() . ' ' . $user->getPrenom() . '' . ' est en attente';
+
+                $message = (new Swift_Message('Remboursement de frais (' . $user->getNom() . '' . $user->getPrenom() . ')'))
+                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setTo([$to])
+                    ->setBody($body, 'html')
+                    ->setContentType('text/html');
+                $mailer->send($message);
+
+            } else if ($from === 'admin') {
+
+                // contenu du mail
+
+                $body = 'Votre demande au remboursement a été validée le ' . $dateToday . '<br>
+                    Service RH INSPIRE';
+
+                $message = (new Swift_Message('Validation de la demande au remboursement des frais'))
+                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setTo([$user->getEmail()])
+                    ->setBody($body, 'html')
+                    ->setContentType('text/html');
+                $mailer->send($message);
+
+            }
+        }
 
         return $this->view($data,  Response::HTTP_CREATED)->setContext((new Context())->setGroups(['note']));
 
@@ -172,12 +222,13 @@ class NoteFraisController extends AbstractFOSRestController
     }
 
     /**
+     * @Route("/api/notes/{id}/validation", name="validationNote")
      * @param Request $request
      * @param int $id
+     * @param Swift_Mailer $mailer
      * @return \FOS\RestBundle\View\View
-     * @throws \Exception
      */
-    public function patchNoteValidationAction(Request $request, int $id)
+    public function patchNoteValidationAction(Request $request, int $id, Swift_Mailer $mailer)
     {
 
         $note = $this->noteFraisRepository->findOneBy(['id' => $id]);
@@ -187,7 +238,6 @@ class NoteFraisController extends AbstractFOSRestController
             $statut = $request->get('statut', $note->getStatut());
             $cause = $request->get('cause_refus', $note->getCauseRefus());
 
-
             $note->setStatut($statut);
             $note->setCauseRefus($cause);
 
@@ -195,6 +245,32 @@ class NoteFraisController extends AbstractFOSRestController
             $this->entityManager->flush();
 
             $data = $this->noteFraisRepository->findAll();
+
+            $dateNow = new DateTime();
+            $dateToday = $dateNow->format("Y-m-d");
+
+            if ( $statut === 'Validée') {
+
+                $body = 'Votre demande au remboursement a été validée le ' . $dateToday. '<br>
+                    Service RH INSPIRE';
+
+                $message = (new Swift_Message('Retour de la demande de note de frais'))
+                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setTo([$note->getUser()->getEmail()])
+                    ->setBody($body, 'html')
+                    ->setContentType('text/html');
+                $mailer->send($message);
+            } else if ($statut === 'Refusée') {
+                $body = 'Votre demande au remboursement a été refusée le ' . $dateToday. '<br>
+                    Service RH INSPIRE';
+
+                $message = (new Swift_Message('Retour de la demande de note de frais'))
+                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setTo([$note->getUser()->getEmail()])
+                    ->setBody($body, 'html')
+                    ->setContentType('text/html');
+                $mailer->send($message);
+            }
 
             return $this->view($data, Response::HTTP_OK)->setContext((new Context())->setGroups(['note']));
 

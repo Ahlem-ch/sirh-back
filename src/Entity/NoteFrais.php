@@ -107,6 +107,12 @@ class NoteFrais
      */
     private $cause_refus;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @Groups({"note"})
+     */
+    private $equipe;
+
 
     public function getId(): ?int
     {
@@ -275,6 +281,18 @@ class NoteFrais
     public function setCauseRefus(?string $cause_refus): self
     {
         $this->cause_refus = $cause_refus;
+
+        return $this;
+    }
+
+    public function getEquipe(): ?string
+    {
+        return $this->equipe;
+    }
+
+    public function setEquipe(?string $equipe): self
+    {
+        $this->equipe = $equipe;
 
         return $this;
     }

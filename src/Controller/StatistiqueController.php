@@ -2,16 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\User;
 use App\Repository\CongeRepository;
 use App\Repository\ContratRepository;
 use App\Repository\DepartementRepository;
 use App\Repository\PosteRepository;
 use App\Repository\TechnologieRepository;
 use App\Repository\UserRepository;
-use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
-use FOS\RestBundle\Context\Context;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -211,4 +208,5 @@ class StatistiqueController extends AbstractFOSRestController
         return $this->view([['duree1' =>$list,'duree2' =>$list2,'duree3' =>$list3,'duree4' =>$list4]], Response::HTTP_OK);
 
     }
+
 }

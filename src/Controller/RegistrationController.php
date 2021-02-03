@@ -30,8 +30,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use OpenApi\Annotations as OA;
-use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\ConstraintViolationList;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 
@@ -1089,6 +1087,51 @@ class RegistrationController extends AbstractFOSRestController
         $data = $this->userRepository->userByRole($role);
         return $this->view($data, Response::HTTP_OK)->setContext((new Context())->setGroups(['public']));
 
+    }
+
+    /**
+     * @Route("/api/anniversaire/mail", name="mail_anniversaire")
+     * @param Swift_Mailer $mailer
+     * @return string
+     */
+    public function getAnniversaireMailAction(Swift_Mailer $mailer)
+    {
+        $users = $this->userRepository->findAll();
+        $list = [];
+        $listAnniversaires = [];
+        foreach ($users as $item)
+        {
+
+            $newDate = new \DateTime() ;
+            $date_now = $newDate->format('m-d');
+            $date_naissanse = $item->getDateNaissance()->format('m-d');
+            if ($date_naissanse === $date_now ) {
+                array_push($listAnniversaires, $item);
+            } else {
+                array_push($list, $item->getEmail());
+            }
+
+        }
+        if ($listAnniversaires != null) {
+
+            foreach ($listAnniversaires as $l){
+
+                // contenu du mail d'anniversaire
+
+                $body = 'Hello ! Aujourd\'hui c\'est l\'anniversaire de notre collègue <b>'. $l->getPrenom().' '.$l->getNom().'</b>, n\'hésite pas à lui envoyer un petit message
+                 ou à lui offrir une petite attention en cette journée spéciale !';
+                $message = (new Swift_Message('Aujourd\'hui on fête un nouvel anniversaire chez nous !'))
+                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setTo($list)
+                    ->setBody($body)
+                    ->setContentType('text/html')
+                    ->attach(\Swift_Attachment::fromPath(__DIR__ . '/../../public/uploads/images/anniversaire.png'));
+                $mailer->send($message);
+
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            }
+
+        }
     }
 
 
