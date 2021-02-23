@@ -56,26 +56,12 @@ class Experience
     /**
      * @ORM\Column(type="datetime")
      * @Groups({"public","experience"})
-     * @OA\Property(
-     *     format="string",
-     *     description="Experience date_debut",
-     *     title="date_debut",
-     * )
-     *
-     * @var string
      */
     private $date_debut;
 
     /**
      * @ORM\Column(type="datetime", nullable=true)
      * @Groups({"public","experience","typesExp"})
-     * @OA\Property(
-     *     format="string",
-     *     description="Experience date_fin",
-     *     title="date_fin",
-     * )
-     *
-     * @var string
      */
     private $date_fin;
 
@@ -95,12 +81,6 @@ class Experience
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="experiences")
      * @ORM\JoinColumn(nullable=true)
      * @Groups({"experience"})
-     * @OA\Property(
-     *     description="Experience user",
-     *     title="users",type="array", @OA\Items(ref="#/components/schemas/User")
-     * )
-     *
-     * @var string
      */
     private $user;
 

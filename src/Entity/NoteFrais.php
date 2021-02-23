@@ -169,12 +169,12 @@ class NoteFrais
 
     public function getDateFormat(): ?string
     {
-        return $this->date->format('Y-m-d');;
+        return $this->date->format('Y-m-d');
     }
 
     public function getDateAjoutFormat(): ?string
     {
-        return $this->created_at->format('Y-m-d');;
+        return $this->created_at->format('Y-m-d');
     }
 
     public function getDescription(): ?string
