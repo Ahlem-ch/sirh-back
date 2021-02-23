@@ -20,10 +20,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c1b4f359-ac36-4ba0-948c-8c40cb95672c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Experience.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Experience.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/NoteFrais.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/NoteFrais.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -510,7 +507,7 @@
       <workItem from="1612972533885" duration="983000" />
       <workItem from="1612975670184" duration="169000" />
       <workItem from="1613032309063" duration="193000" />
-      <workItem from="1614069970950" duration="2931000" />
+      <workItem from="1614069970950" duration="5042000" />
     </task>
     <task id="LOCAL-00001" summary=".env update">
       <created>1580922129270</created>
