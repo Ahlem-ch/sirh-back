@@ -1,4 +1,0 @@
-
-
-
-0 8 * * *  php /home/web/mysirh.com/www/api/SIRH/bin/console app:mail-anniversaire >> /home/web/mysirh.com/www/api/SIRH/var/log/app:mail-anniversaire.log
