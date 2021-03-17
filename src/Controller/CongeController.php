@@ -184,17 +184,17 @@ class CongeController extends AbstractFOSRestController
               le ' . $date_deb_format. '<br>' .
                         'Nous vous informons que nous vous donnons notre accord pour cette date.' . '<br>' .
 
-                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
+                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br><br><br>' .
 
-                        'Sevice RH INSPIRE';
+                        'Service RH INSPIRE';
                 } else  {
                     $body = ' Nous avons bien reçu votre demande dans lequel vous nous indiquez que vous souhaitez prendre votre congé principal 
               du ' . $date_deb_format . '  au ' . $date_fin_format . '<br>' .
                         'Nous vous informons que nous vous donnons notre accord pour ces dates de congés.' . '<br>' .
 
-                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
+                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br><br><br>' .
 
-                        'Sevice RH INSPIRE';
+                        'Service RH INSPIRE';
                 }
             $message = (new Swift_Message('Demande de congé payé'))
                 ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
@@ -209,19 +209,19 @@ class CongeController extends AbstractFOSRestController
 
                     $body = ' Nous avons bien reçu votre demande dans lequel vous nous indiquez que vous souhaitez prendre votre congé principal 
               le ' . $date_deb_format. '<br>' .
-                        'Nous vous informons que nous somme désolé de refusé votre demande pour cette date.' . '<br>' .
+                        'Nous vous informons que nous sommes désolé de refusé votre demande pour cette date.' . '<br>' .
 
-                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
+                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br><br><br>' .
 
-                        'Sevice RH INSPIRE';
+                        'Service RH INSPIRE';
                 } else  {
                     $body = ' Nous avons bien reçu votre demande dans lequel vous nous indiquez que vous souhaitez prendre votre congé principal 
               du ' . $date_deb_format . '  au ' . $date_fin_format . '<br>' .
-                        'Nous vous informons que nous somme désolé de refusé votre demande pour ces dates de congés.' . '<br>' .
+                        'Nous vous informons que nous sommes désolé de refusé votre demande pour ces dates de congés.' . '<br>' .
 
-                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br>' .
+                        'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br><br><br>' .
 
-                        'Sevice RH INSPIRE';
+                        'Service RH INSPIRE';
                 }
                 $message = (new Swift_Message('Demande de congé payé'))
                     ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])

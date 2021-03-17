@@ -105,6 +105,22 @@ class TeletravailController extends AbstractFOSRestController
             $teletravail->setStatut("Validé");
         } else if ($from == 'user') {
             $teletravail->setStatut("En attente");
+
+            //send Mail
+            $dateNow = new DateTime();
+            $dateToday = $dateNow->format("Y-m-d");
+            if($from == 'admin') {
+                $body = 'Votre demande d\'autorisation d\'exercer tes activités dans le cadre du télétravail a été validée avec succès le '.$dateToday ;
+            } else if ($from == 'user') {
+                $body = 'Une demande de télétravail a été envoyée le '.$dateToday.' par '.$user->getNom().' '.$user->getPrenom().''.' est en attente';
+            }
+            $message = (new Swift_Message('Demande de télétravail ('.$user->getNom().''.$user->getPrenom().')'))
+                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                ->setTo([$email])
+                ->setBody($body, 'html')
+                ->setContentType('text/html');
+            $mailer->send($message);
+
         }
         $teletravail->setCollaborateur($user);
 
@@ -112,21 +128,6 @@ class TeletravailController extends AbstractFOSRestController
         $this->entityManager->flush();
 
 
-        //send Mail
-
-        $dateNow = new DateTime();
-        $dateToday = $dateNow->format("Y-m-d");
-        if($from == 'admin') {
-            $body = 'Votre demande d\'autorisation d\'exercer tes activités dans le cadre du télétravail a été validée avec succès le '.$dateToday ;
-        } else if ($from == 'user') {
-            $body = 'Une demande de télétravail a été envoyée le '.$dateToday.' par '.$user->getNom().' '.$user->getPrenom().''.' est en attente';
-        }
-        $message = (new Swift_Message('Demande de télétravail ('.$user->getNom().''.$user->getPrenom().')'))
-            ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
-            ->setTo([$email])
-            ->setBody($body, 'html')
-            ->setContentType('text/html');
-        $mailer->send($message);
 
 
         return $this->getTeletravailsAction();
@@ -136,10 +137,10 @@ class TeletravailController extends AbstractFOSRestController
     /**
      * @param Request $request
      * @param int $id
+     * @param Swift_Mailer $mailer
      * @return \FOS\RestBundle\View\View
-     * @throws \Exception
      */
-    public function patchTeletravailAction(Request $request, int $id)
+    public function patchTeletravailAction(Request $request, int $id, Swift_Mailer $mailer)
     {
 
         $teletravail = $this->teletravailRepository->findOneBy(['id' => $id]);
@@ -152,6 +153,8 @@ class TeletravailController extends AbstractFOSRestController
             $statut	 = $request->get('statut', $teletravail->getStatut());
             $dates = $request->get('dates', $teletravail->getDates());
             $cause = $request->get('cause_refus', $teletravail->getCauseRefus());
+            $to = $request->get('to');
+
 
             $teletravail->setDateDebut($date_debut);
             $teletravail->setDateFin($date_fin);
@@ -162,6 +165,42 @@ class TeletravailController extends AbstractFOSRestController
 
             $this->entityManager->persist($teletravail);
             $this->entityManager->flush();
+
+
+            $dateNow = new DateTime();
+            $dateToday = $dateNow->format("Y-m-d");
+            $date_deb_format= $date_debut->format("Y-m-d");
+            $date_fin_format = $date_fin->format("Y-m-d");
+
+            if($statut === 'Validé'){
+
+                $subject = 'Votre demande d\'autorisation d\'exercer tes activités dans le cadre du télétravail a été validée avec succès le '.$dateToday ;
+                $body = ' Nous avons bien reçu votre demande  d\'autorisation d\'exercer vos activités dans le cadre du télétravail'. '<br>'.
+                    ' à partir  de ' . $date_deb_format.  ' jusqu\'à le ' . $date_fin_format. '.<br>'.
+                    'Nous vous informons que nous vous donnons notre accord pour cette date.' . '<br>' .
+
+                    'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br><br><br>' .
+
+                    'Service RH INSPIRE';
+
+            } else if ($statut === 'Refusé') {
+
+                $subject = 'Votre demande d\'autorisation d\'exercer tes activités dans le cadre du télétravail a été refusée le '.$dateToday ;
+                $body = ' Nous avons bien reçu votre demande  d\'autorisation d\'exercer vos activités dans le cadre du télétravail'. '<br>'.
+                    ' à partir  de ' . $date_deb_format.  ' jusqu\'à le ' . $date_fin_format. '.<br>'.
+                    'Nous vous informons que nous sommes désolé de refusé votre demande pour cette date.' . '<br>' .
+
+                    'Nous vous prions d’agréer, Madame / Monsieur, nos respectueuses salutations.' . '<br><br><br>' .
+
+                    'Service RH INSPIRE';
+            }
+
+            $message = (new Swift_Message($subject))
+                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                ->setTo([$to])
+                ->setBody($body, 'html')
+                ->setContentType('text/html');
+            $mailer->send($message);
 
             return $this->getTeletravailsAction();
 

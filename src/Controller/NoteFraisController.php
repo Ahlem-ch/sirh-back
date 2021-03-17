@@ -162,7 +162,7 @@ class NoteFraisController extends AbstractFOSRestController
 
                 // contenu du mail
 
-                $body = 'Votre demande au remboursement a été validée le ' . $dateToday . '<br>
+                $body = 'Votre demande au remboursement a été validée le ' . $dateToday . '<br><br><br>
                     Service RH INSPIRE';
 
                 $message = (new Swift_Message('Validation de la demande au remboursement des frais'))
@@ -251,7 +251,7 @@ class NoteFraisController extends AbstractFOSRestController
 
             if ( $statut === 'Validée') {
 
-                $body = 'Votre demande au remboursement a été validée le ' . $dateToday. '<br>
+                $body = 'Votre demande au remboursement a été validée le ' . $dateToday. '<br><br><br>
                     Service RH INSPIRE';
 
                 $message = (new Swift_Message('Retour de la demande de note de frais'))
@@ -261,7 +261,7 @@ class NoteFraisController extends AbstractFOSRestController
                     ->setContentType('text/html');
                 $mailer->send($message);
             } else if ($statut === 'Refusée') {
-                $body = 'Votre demande au remboursement a été refusée le ' . $dateToday. '<br>
+                $body = 'Votre demande au remboursement a été refusée le ' . $dateToday. '<br><br><br>
                     Service RH INSPIRE';
 
                 $message = (new Swift_Message('Retour de la demande de note de frais'))

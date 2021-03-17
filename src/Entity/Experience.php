@@ -161,13 +161,21 @@ class Experience
 
     public function getDebutFormat(): ?string
     {
-        return $this->date_debut->format('Y-m-d');
+        if ($this->date_fin != null) {
+            return $this->date_debut->format('Y-m-d');
+        }  else {
+            return $this->date_debut;
+        }
     }
 
 
     public function getFinFormat(): ?string
     {
-        return $this->date_fin->format('Y-m-d');
+        if ($this->date_fin != null) {
+            return $this->date_fin->format('Y-m-d');
+        } else {
+            return $this->date_fin;
+        }
     }
 
 }
