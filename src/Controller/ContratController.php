@@ -350,7 +350,7 @@ class ContratController extends AbstractFOSRestController
                    $body = 'Le contrat '. '<b>('.$d->getRef().')</b>'.' du collaborateur '. $d->getUser()->getNom().' '.$d->getUser()->getPrenom().
                        ' va expirer le : '. '<b>'.$d->getFinFormat().'</b>';
                    $message = (new Swift_Message('Un contrat va bientôt expirer'))
-                       ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                       ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                        ->setTo(['rh@agence-inspire.com'])
                        ->setBody($body, 'html')
                        ->setContentType('text/html');

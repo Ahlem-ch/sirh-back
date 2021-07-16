@@ -7,6 +7,6 @@ swiftmailer:
     auth_mode: login
     port: 465
     host: smtp.gmail.com
-    username: 'no-reply@agence-inspire.com'
-    password: 'NoReply232006'
+    username: 'dev@agence-inspire.com'
+    password: '8hbP*D&h'
     spool: { type: 'memory' }

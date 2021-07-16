@@ -126,7 +126,7 @@ class CongeController extends AbstractFOSRestController
 
         $body = 'Une demande de congés a été envoyée le '.$dateToday.' par '.$user->getNom().' '.$user->getPrenom().''.' est en attente';
         $message = (new Swift_Message('Demande de congé ('.$user->getNom().''.$user->getPrenom().')'))
-            ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+            ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
             ->setTo([$email])
             ->setBody($body, 'html')
             ->setContentType('text/html');
@@ -197,7 +197,7 @@ class CongeController extends AbstractFOSRestController
                         'Service RH INSPIRE';
                 }
             $message = (new Swift_Message('Demande de congé payé'))
-                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                 ->setTo([$email])
                 ->setBody($body, 'html')
                 ->setContentType('text/html');
@@ -224,7 +224,7 @@ class CongeController extends AbstractFOSRestController
                         'Service RH INSPIRE';
                 }
                 $message = (new Swift_Message('Demande de congé payé'))
-                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                     ->setTo([$email])
                     ->setBody($body, 'html')
                     ->setContentType('text/html');

@@ -390,7 +390,7 @@ class RegistrationController extends AbstractFOSRestController
                       A bientôt !';
 
         $message = (new Swift_Message('Bienvenue sur notre plateforme !'))
-            ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+            ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
             ->setTo([$email])
             ->setBody($body)
             ->setContentType('text/html')
@@ -1041,7 +1041,7 @@ class RegistrationController extends AbstractFOSRestController
             $body = 'Votre nouveau mot de passe est : <b>' . $new_password . '</b><br> 
                  Pour le changer il suffit de se connecter, d\'aller à ton espace personnel et de choisir un nouveau';
             $message = (new Swift_Message('Réinsialisation du mot de passe'))
-                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                 ->setTo([$email])
                 ->setBody($body)
                 ->setContentType('text/html')
@@ -1121,7 +1121,7 @@ class RegistrationController extends AbstractFOSRestController
                 $body = 'Hello ! Aujourd\'hui c\'est l\'anniversaire de notre collègue <b>'. $l->getPrenom().' '.$l->getNom().'</b>, n\'hésite pas à lui envoyer un petit message
                  ou à lui offrir une petite attention en cette journée spéciale !';
                 $message = (new Swift_Message('Aujourd\'hui on fête un nouvel anniversaire chez nous !'))
-                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                     ->setTo($list)
                     ->setBody($body)
                     ->setContentType('text/html')

@@ -152,7 +152,7 @@ class NoteFraisController extends AbstractFOSRestController
                 $body = 'Je vous prie de bien vouloir procéder au remboursement  de l\'ensemble des frais engagés dans le cadre de cette mission professionnelle.<br> Envoyée le ' . $dateToday . ' par ' . $user->getNom() . ' ' . $user->getPrenom() . '' . ' est en attente';
 
                 $message = (new Swift_Message('Remboursement de frais (' . $user->getNom() . '' . $user->getPrenom() . ')'))
-                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                     ->setTo([$to])
                     ->setBody($body, 'html')
                     ->setContentType('text/html');
@@ -166,7 +166,7 @@ class NoteFraisController extends AbstractFOSRestController
                     Service RH INSPIRE';
 
                 $message = (new Swift_Message('Validation de la demande au remboursement des frais'))
-                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                     ->setTo([$user->getEmail()])
                     ->setBody($body, 'html')
                     ->setContentType('text/html');
@@ -255,7 +255,7 @@ class NoteFraisController extends AbstractFOSRestController
                     Service RH INSPIRE';
 
                 $message = (new Swift_Message('Retour de la demande de note de frais'))
-                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                     ->setTo([$note->getUser()->getEmail()])
                     ->setBody($body, 'html')
                     ->setContentType('text/html');
@@ -265,7 +265,7 @@ class NoteFraisController extends AbstractFOSRestController
                     Service RH INSPIRE';
 
                 $message = (new Swift_Message('Retour de la demande de note de frais'))
-                    ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                    ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                     ->setTo([$note->getUser()->getEmail()])
                     ->setBody($body, 'html')
                     ->setContentType('text/html');

@@ -115,7 +115,7 @@ class TeletravailController extends AbstractFOSRestController
                 $body = 'Une demande de télétravail a été envoyée le '.$dateToday.' par '.$user->getNom().' '.$user->getPrenom().''.' est en attente';
             }
             $message = (new Swift_Message('Demande de télétravail ('.$user->getNom().''.$user->getPrenom().')'))
-                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                 ->setTo([$email])
                 ->setBody($body, 'html')
                 ->setContentType('text/html');
@@ -196,7 +196,7 @@ class TeletravailController extends AbstractFOSRestController
             }
 
             $message = (new Swift_Message($subject))
-                ->setFrom(['no-reply@agence-inspire.com' => 'Agence Inspire'])
+                ->setFrom(['dev@agence-inspire.com' => 'Agence Inspire'])
                 ->setTo([$to])
                 ->setBody($body, 'html')
                 ->setContentType('text/html');
