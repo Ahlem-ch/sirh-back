@@ -8,5 +8,5 @@ swiftmailer:
     port: 465
     host: smtp.gmail.com
     username: 'dev@agence-inspire.com'
-    password: '8hbP*D&h'
+    password: 'InspireDev'
     spool: { type: 'memory' }
